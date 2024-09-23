@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zwave-js-ui
+  labels:
+    app: zwave-js-ui
+spec:
+  serviceName: "zwave-js-ui"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zwave-js-ui
+  template:
+    metadata:
+      labels:
+        app: zwave-js-ui
+    spec:
+      containers:
+        - name: zwave-js-ui
+          image: zwavejs/zwave-js-ui:latest
+          ports:
+          - containerPort: 8091
+            name: http
+            protocol: TCP
+          - containerPort: 3000
+            name: websocket
+            protocol: TCP
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+            requests:
+              cpu: "1"
+              memory: 400Mi
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+          env:
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: zwave-js-secret
+                  key: session_secret
+          volumeMounts:
+            - name: config
+              mountPath: /usr/src/app/store
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: zwave-js-ui-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: zwave-js-ui-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
