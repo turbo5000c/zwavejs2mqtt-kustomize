@@ -19,12 +19,12 @@ spec:
         - name: zwave-js-ui
           image: zwavejs/zwave-js-ui:latest
           ports:
-          - containerPort: 8091
-            name: http
-            protocol: TCP
-          - containerPort: 3000
-            name: websocket
-            protocol: TCP
+            - containerPort: 8091
+              name: http
+              protocol: TCP
+            - containerPort: 3000
+              name: websocket
+              protocol: TCP
           resources:
             limits:
               cpu: "1"
@@ -45,12 +45,13 @@ spec:
             - name: config
               mountPath: /usr/src/app/store
       volumes:
+        # We remove the explicit claimName reference here
         - name: config
           persistentVolumeClaim:
-            claimName: zwave-js-ui-pvc
+            claimName: zwave-js-ui-pvc  # This matches the claim template
   volumeClaimTemplates:
     - metadata:
-        name: zwave-js-ui-pvc
+        name: config  # The name must match the volumeMounts name
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
