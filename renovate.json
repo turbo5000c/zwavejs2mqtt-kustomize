@@ -12,5 +12,10 @@
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
     }
-  ]
+  ],
+  "schedule": ["before 6am", "before 12pm", "before 6pm", "before 12am"],
+  "automerge": true,
+  "automergeType": "branch",
+  "automergeStrategy": "auto",
+  "requiredStatusChecks": null
 }
