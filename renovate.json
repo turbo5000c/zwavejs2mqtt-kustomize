@@ -5,7 +5,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["statefulSet.yaml"], 
+      "fileMatch": ["statefulset.yaml"], 
       "matchStrings": [
         "image:\\s(?<depName>.*):(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ],
