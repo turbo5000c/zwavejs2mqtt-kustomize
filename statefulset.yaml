@@ -43,7 +43,7 @@ spec:
                   key: session_secret
           volumeMounts:
             - name: config
-              mountPath: /usr/src/app/
+              mountPath: /usr/src/app/store
       volumes:
         # We remove the explicit claimName reference here
         - name: config
