@@ -45,7 +45,14 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /usr/src/app/store
+            - name: zoneinfo
+              mountPath: /etc/localtime
+              subPath: America/New_York
+              readOnly: true
       volumes:
+        - name: zoneinfo
+          hostPath:
+            path: /usr/share/zoneinfo
         # We remove the explicit claimName reference here
         - name: config
           persistentVolumeClaim:
