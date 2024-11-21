@@ -53,15 +53,18 @@ spec:
         - name: zoneinfo
           hostPath:
             path: /usr/share/zoneinfo
-        # We remove the explicit claimName reference here
         - name: config
-          persistentVolumeClaim:
-            claimName: zwave-js-ui-pvc  # This matches the claim template
-  volumeClaimTemplates:
-    - metadata:
-        name: config  # The name must match the volumeMounts name
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
+          hostPath:
+            path: /srv/container-data/zwavejs2mqtt   
+        # We remove the explicit claimName reference here
+#        - name: config
+#          persistentVolumeClaim:
+#            claimName: zwave-js-ui-pvc  # This matches the claim template
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: config  # The name must match the volumeMounts name
+#      spec:
+#        accessModes: ["ReadWriteOnce"]
+#        resources:
+#          requests:
             storage: 1Gi
