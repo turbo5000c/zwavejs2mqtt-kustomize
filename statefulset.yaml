@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: zwave-js-ui
-          image: zwavejs/zwave-js-ui:11.5.2
+          image: zwavejs/zwave-js-ui:11.6.1
           tty: true
           ports:
             - containerPort: 8091
