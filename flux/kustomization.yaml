@@ -1,0 +1,41 @@
+---
+# FluxCD Kustomization
+#
+# This tells FluxCD to apply the manifests from the GitRepository above.
+# Adjust 'targetNamespace' to the namespace where you want to deploy zwave-js-ui.
+#
+# Before applying this file, make sure you have created the required Secret in
+# the target namespace:
+#
+#   kubectl create secret generic zwave-js-secret \
+#     --from-literal=session_secret='<your-random-secret>' \
+#     --namespace=zwave
+#
+# See examples/secret.yaml for a declarative alternative.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: zwavejs2mqtt
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: zwavejs2mqtt-kustomize
+  # Path inside the GitRepository that contains the kustomization.yaml
+  path: "./"
+  prune: true
+  targetNamespace: zwave
+  # Ensure the target namespace exists before applying resources.
+  # Remove this block if you manage the namespace separately.
+  patches:
+    - patch: |
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+          name: zwave
+      target:
+        kind: Namespace
+        name: zwave
