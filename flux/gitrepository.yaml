@@ -1,0 +1,18 @@
+---
+# FluxCD GitRepository
+#
+# This tells FluxCD where to pull the manifests from.
+# Replace the 'url' with your own fork if you have customised the manifests.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: zwavejs2mqtt-kustomize
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://github.com/turbo5000c/zwavejs2mqtt-kustomize
+  ref:
+    # Pin to a specific release tag. Replace with the latest tag available in
+    # the repository (tags match the zwave-js-ui image version, e.g. "11.14.0").
+    # Check https://github.com/turbo5000c/zwavejs2mqtt-kustomize/tags for the latest.
+    tag: "REPLACE_WITH_LATEST_TAG"
