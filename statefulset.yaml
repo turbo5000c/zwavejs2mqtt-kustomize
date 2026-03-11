@@ -56,12 +56,17 @@ spec:
         - name: config
           hostPath:
             path: /srv/container-data/zwavejs2mqtt
-        # To use a PersistentVolumeClaim instead of a hostPath, comment out
-        # the hostPath volume above and uncomment the block below.
-        # You will also need to uncomment the volumeClaimTemplates section.
+        # Option 1: Use an existing PersistentVolumeClaim instead of a hostPath.
+        # - Comment out the 'config' hostPath volume above.
+        # - Ensure a PVC named 'zwave-js-ui-pvc' exists in the namespace.
+        # - Uncomment the block below to reference that PVC.
         #- name: config
         #  persistentVolumeClaim:
         #    claimName: zwave-js-ui-pvc
+# Option 2: Have the StatefulSet create a PVC per replica using volumeClaimTemplates.
+# - Remove the 'config' entry under 'volumes:' above (the hostPath block).
+# - Keep the container's volumeMount with name 'config' as-is.
+# - Uncomment the volumeClaimTemplates section below.
 #  volumeClaimTemplates:
 #    - metadata:
 #        name: config

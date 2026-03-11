@@ -205,7 +205,10 @@ kubectl create secret generic zwave-js-secret \
   --namespace=zwave
 ```
 
-> If you want to manage the secret declaratively in Git, use SOPS or Sealed Secrets to encrypt `examples/secret.yaml` before committing.
+> **Secret management:** The root `kustomization.yaml` intentionally excludes `secret.yaml`, so Flux will **never** overwrite a secret you manage outside Git. Choose one of the following approaches:
+>
+> - **Manually managed (recommended for beginners):** Use the `kubectl create secret` commands above. Flux will apply the StatefulSet and Service but leave your secret alone.
+> - **Git-managed secret (GitOps):** Encrypt `examples/secret.yaml` with [SOPS](https://fluxcd.io/flux/guides/mozilla-sops/) or [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets), commit the encrypted file, and add it to your own overlay's `kustomization.yaml`. Do **not** run the `kubectl create secret` commands above in this case.
 
 ### Step 2: Apply the FluxCD source
 
@@ -289,7 +292,7 @@ kubectl create secret generic zwave-js-secret \
   --namespace=zwave
 ```
 
-> **Do not apply the default `secret.yaml`** directly — it contains a placeholder value that is not secure.
+> The root `kustomization.yaml` does not include `secret.yaml`, so `kubectl apply -k .` will never overwrite this secret. See `examples/secret.yaml` if you prefer a declarative approach.
 
 ### Step 4: Review and customise the manifests
 
@@ -302,7 +305,7 @@ kubectl create secret generic zwave-js-secret \
 kubectl apply -k . --namespace=zwave
 ```
 
-> The `-k` flag tells kubectl to use Kustomize mode.
+> The `-k` flag tells kubectl to use Kustomize mode. The root `kustomization.yaml` does **not** include `secret.yaml`, so the secret you created in Step 3 will not be overwritten.
 
 ### Step 6: Verify
 

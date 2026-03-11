@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - statefulset.yaml
   - service.yaml
-  - secret.yaml
+  # secret.yaml is intentionally excluded — manage zwave-js-secret as a
+  # prerequisite so it is never overwritten by kubectl or Flux reconciliation.
+  # See README.md or examples/secret.yaml for instructions.
